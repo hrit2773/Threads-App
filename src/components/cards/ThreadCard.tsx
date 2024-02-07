@@ -4,8 +4,8 @@ import Link from "next/link";
 import { useRef,useEffect, useState, useTransition } from "react";
 import { usePathname } from "next/navigation";
 import { formatDateString } from "@/lib/utils";
-import { addLike,removeLike } from "@/lib/actions/threadActions";
-import { Suspense } from "react";
+import { addLike,createThread,removeLike } from "@/lib/actions/threadActions";
+import { useOrganization } from "@clerk/nextjs";
 import HeartGif from "../shared/HeartGif";
 
 
@@ -54,6 +54,7 @@ export const ThreadCard=({
     const [isPending,startTransition]=useTransition()
     const pathname=usePathname()
     let videoRef=useRef<HTMLVideoElement>(null)
+    const {organization}=useOrganization()
     
     const PostContent = () => {
         // Regular expression to match @username mentions
@@ -100,6 +101,15 @@ export const ThreadCard=({
         })
     }
 
+    const Repost=async ()=>{
+        await createThread({
+            text:content,
+            author:currentUserId,
+            file:file,
+            communityId:((organization && organization.id===community?.id)||(!community && organization))? organization.id : null,
+            path:pathname
+        })
+    }
     useEffect(() => {
         
         const video = videoRef.current;
@@ -251,6 +261,7 @@ export const ThreadCard=({
                                         height={30}
                                         alt="heart icon"
                                         className=" cursor-pointer object-contain"
+                                        onClick={Repost}
                                     />
                                     
                                     </>
