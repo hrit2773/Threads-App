@@ -3,9 +3,7 @@
     "name": "your-nextjs-app",
     "builds": [
        { "src": "next.config.mjs", "use": "@now/next" }
-    ],
-    "routes": [
-       { "src": "/(.*)", "dest": "/index.html" }
     ]
+    
 }
  
