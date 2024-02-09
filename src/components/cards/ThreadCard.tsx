@@ -4,9 +4,10 @@ import Link from "next/link";
 import { useRef,useEffect, useState, useTransition } from "react";
 import { usePathname } from "next/navigation";
 import { formatDateString } from "@/lib/utils";
-import { addLike,createThread,removeLike } from "@/lib/actions/threadActions";
+import { addLike,createThread,deleteThread,removeLike } from "@/lib/actions/threadActions";
 import { useOrganization } from "@clerk/nextjs";
 import HeartGif from "../shared/HeartGif";
+
 
 
 interface Props{
@@ -100,6 +101,9 @@ export const ThreadCard=({
             await removeLike(id,currentUserId,pathname)
         })
     }
+    const Delete=async ()=>{
+        await deleteThread(id,pathname)
+    }
 
     const Repost=async ()=>{
         await createThread({
@@ -174,14 +178,26 @@ export const ThreadCard=({
                         <div className="thread-card_bar"/>
                     </div>
                     <div className="flex flex-col gap-3 w-full">
-                        <Link href={`/profile/${author._id}`} className={`${(isComment)? "flex flex-col":""} w-fit`}>
-                            <h4 className=" cursor-pointer text-base-semibold text-light-1">{author.name}</h4>
+                        <div className={`${(isComment)? "flex flex-col":""} w-fit`}>
+                            <div className="flex flex-row gap-4">
+                                <h4 className=" text-base-semibold text-light-1">{author.name}</h4>
+                                {(pathname.includes('profile') && currentUserId===author._id)?(
+                                    <Image
+                                        src="/assets/delete.svg"
+                                        alt="delete"
+                                        width={20}
+                                        height={20}
+                                        className=" cursor-pointer"
+                                        onClick={Delete}
+                                    />
+                                ):(<></>)}
+                            </div>
                             {isComment &&(
                                 <p className=" text-subtle-medium text-gray-1">
                                     @{formatDateString(createdAt)}
                                 </p>
                             )}
-                        </Link>
+                        </div>
                         <div className="mt-3 text-small-regular text-light-2">{PostContent()}</div>
                         {
                             (file!==undefined && file!=='' && (file.includes('jpg') || file.includes('png') || file.includes('image')))? (
@@ -197,7 +213,7 @@ export const ThreadCard=({
                             ):(
                                 <div>
                                     {
-                                        (file !==undefined && file.includes('video'))? (
+                                        (file !==undefined && (file.includes('video')||file.includes('mp4')))? (
                                             <video
                                                 ref={videoRef}
                                                 src={file}

@@ -10,7 +10,9 @@ import ThreadsTab from "@/components/shared/ThreadsTab";
 const page=async ({params}:{params:{id:string;}})=>{
     const user=await currentUser()
     if (!user) redirect('/sign-in');
+    let currUser=await fetchUser(user.id)
     let userInfo=await fetchUserById(params.id)
+    currUser=JSON.parse(JSON.stringify(currUser))
     userInfo=JSON.parse(JSON.stringify(userInfo))
     return (
         <section>
@@ -59,14 +61,14 @@ const page=async ({params}:{params:{id:string;}})=>{
                             {(tab.label==="Threads")?(
                                 <ThreadsTab
                                 currentUserId={userInfo._id.toString()}
-                                accountId={userInfo.id}
+                                accountId={currUser._id.toString()}
                                 accountType="User"
                                 threads={userInfo.threads}
                                 />
                             ):(
                                 <ThreadsTab
                                 currentUserId={userInfo._id.toString()}
-                                accountId={userInfo.id}
+                                accountId={currUser._id.toString()}
                                 accountType="User"
                                 threads={userInfo.threads.filter((thread:any)=>{
                                     const textParts=thread.text.split(" ")

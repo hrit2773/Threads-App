@@ -173,3 +173,22 @@ export const removeLike=async (threadId:string,userId:string,path:string)=>{
         throw new Error(`Failed to remove a like ${error.message}`)
     }
 }
+export const deleteThread=async (threadId:string,path:string)=>{
+    try {
+        connect()
+        const thread=await Thread.findByIdAndDelete(threadId)
+        await User.updateOne(
+            {_id:thread.author},
+            {$pull:{threads:threadId}}
+        )
+        if (thread.community){
+            await Community.updateOne(
+                {_id:thread.community},
+                {$pull:{threads:threadId}}
+            )
+        }
+        revalidatePath(path)
+    } catch (error:any) {
+        throw new Error(`Failed to remove a like ${error.message}`)
+    }
+}

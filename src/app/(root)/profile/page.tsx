@@ -61,14 +61,14 @@ const page=async ()=>{
                             {(tab.label==="Threads")?(
                                 <ThreadsTab
                                 currentUserId={userInfo._id.toString()}
-                                accountId={userInfo.id}
+                                accountId={currUser._id.toString()}
                                 accountType="User"
                                 threads={userInfo.threads}
                                 />
                             ):(
                                 <ThreadsTab
                                 currentUserId={userInfo._id.toString()}
-                                accountId={userInfo.id}
+                                accountId={currUser._id.toString()}
                                 accountType="User"
                                 threads={userInfo.threads.filter((thread:any)=>{
                                     const textParts=thread.text.split(" ")

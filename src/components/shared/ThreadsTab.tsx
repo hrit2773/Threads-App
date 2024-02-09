@@ -60,7 +60,7 @@ export default function ThreadsTab({
                 <ThreadCard
                 key={thread._id}
                 id={thread._id}
-                currentUserId={currentUserId}
+                currentUserId={accountId}
                 content={thread.text}
                 file={thread.file}
                 author={thread.author}//Todo
