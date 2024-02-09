@@ -111,7 +111,7 @@ export default function AccountProfile({user,btnTitle}:Props){
                         type='file'
                         accept='image/*'
                         placeholder="Upload your photo"
-                        className='account-form_image-input'
+                        className='account-form_image-input hidden'
                         onChange={(e)=>handleChange(e,field.onChange)}
                     />
                 </FormControl>
