@@ -8,7 +8,7 @@ Threads is a social media app that leverages Next.js 14 for a seamless integrati
 - **Engage with Content:** Like, comment and repost to interact with the public.
 - **Entirely public App:** All the accounts are public so that your posts will be visible to all the users.
 - **Explore Discover:** Discover new threads and users based on your interests.
-- **Access to communities:** Users can create communities and add multiple members, this enables businesses to run advertisements, groups to run an initiatives and many more.
+- **Access to communities:** Users can create communities and add multiple members, this enables businesses to run advertisements, groups to run initiatives and many more.
 
 ## Technologies Used
 
